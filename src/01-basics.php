@@ -12,6 +12,17 @@
  */
 function getMinuteQuarter(int $minute)
 {
+    if ($minute >= 1 && $minute <= 15) {
+        return 'first';
+    } elseif ($minute >= 16 && $minute <= 30) {
+        return 'second';
+    } elseif ($minute >= 31 && $minute <= 45) {
+        return 'third';
+    } elseif (($minute >= 46 && $minute <= 59) || $minute === 0) {
+        return 'fourth';
+    } else {
+        throw new InvalidArgumentException;
+    }
 }
 
 /**
@@ -27,6 +38,18 @@ function getMinuteQuarter(int $minute)
  */
 function isLeapYear(int $year)
 {
+    if ($year < 1582) {
+        throw new InvalidArgumentException;
+    }
+    if ($year % 4 !== 0) {
+        return false;
+    } elseif ($year % 100 !== 0) {
+        return true;
+    } elseif ($year % 400 !== 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 /**
@@ -42,4 +65,20 @@ function isLeapYear(int $year)
  */
 function isSumEqual(string $input)
 {
+    $inp_len = strlen($input);
+
+    if ($inp_len !== 6) {
+        throw new InvalidArgumentException;
+    }
+    
+    $first_half = 0;
+    $second_half = 0;
+    for ($i = 0; $i < $inp_len; $i++) {
+        if ($i < ($inp_len / 2)) {
+            $first_half += $input[$i];
+        } else {
+            $second_half += $input[$i];
+        }
+    }
+    return $first_half === $second_half;
 }
