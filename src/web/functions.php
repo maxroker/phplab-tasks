@@ -11,7 +11,30 @@
  */
 function getUniqueFirstLetters(array $airports)
 {
-    // put your logic here
+    $letters = array_map(function($airport) { return $airport['name'][0]; }, $airports );
+    $letters = array_unique($letters);
+    sort($letters);
 
-    return ['A', 'B', 'C'];
+    return $letters;
+}
+
+function createUrl($param, $val, $page=0) 
+{
+    $url = '/?';
+    $arr = $_GET;
+
+    if ($page === 1) {
+        $arr['page'] = 1;
+    }
+
+    foreach ($arr as $key => $v) {
+        if ($key !== $param) {
+            $url = ($url === '/?') ? $url : "${url}&";
+            $url = "${url}${key}=${v}";
+        }
+    }
+
+    $url = ($url === '/?') ? $url : "${url}&";
+    $url = "${url}${param}=${val}";
+    return $url;
 }

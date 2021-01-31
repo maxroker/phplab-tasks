@@ -35,11 +35,10 @@ function sayHelloArgument($arg)
  */
 function sayHelloArgumentWrapper($arg)
 {
-    if((gettype($arg) !== 'string') 
-    && (gettype($arg) !== 'boolean') 
-    && (gettype($arg) !== 'integer')
-    && (gettype($arg) !== 'double')
-    ) {
+    if (gettype($arg) !== 'string' && 
+        gettype($arg) !== 'boolean' && 
+        gettype($arg) !== 'integer' && 
+        gettype($arg) !== 'double') {
         throw new InvalidArgumentException;
     }
 
@@ -75,9 +74,8 @@ function countArguments()
  */
 function countArgumentsWrapper(...$args)
 {
-    foreach($args as $arg){
-        if((gettype($arg) !== 'string') 
-        ) {
+    foreach ($args as $arg) {
+        if (gettype($arg) !== 'string') {
             throw new InvalidArgumentException;
         }
     }
