@@ -41,15 +41,8 @@ function isLeapYear(int $year)
     if ($year < 1582) {
         throw new InvalidArgumentException;
     }
-    if ($year % 4 !== 0) {
-        return false;
-    } elseif ($year % 100 !== 0) {
-        return true;
-    } elseif ($year % 400 !== 0) {
-        return false;
-    } else {
-        return true;
-    }
+
+    return ($year % 4 === 0) || ($year % 400 === 0) ? true : false;
 }
 
 /**
