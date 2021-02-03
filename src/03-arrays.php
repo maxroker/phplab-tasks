@@ -10,10 +10,10 @@
  */
 function repeatArrayValues(array $input)
 {
-    $new_arr = array();
+    $new_arr = [];
     for ($i = 0; $i < count($input); $i++) {
         for ($j = 0; $j < $input[$i]; $j++) {
-            array_push($new_arr, $input[$i]);
+            $new_arr[count($new_arr)] = $input[$i];
         }
     }
     return $new_arr;
@@ -29,15 +29,14 @@ function repeatArrayValues(array $input)
  */
 function getUniqueValue(array $input)
 {
-    $input_count_arr = array_count_values($input); 
-    $input_uniq = [];
-    foreach ($input_count_arr as $key => $value) {
+    $unique = [];
+    foreach (array_count_values($input) as $key => $value) {
         if ($value === 1) {
-            array_push($input_uniq, $key);
+            array_push($unique, $key);
         }
     }
 
-    return $input_uniq ? min($input_uniq) : 0;
+    return $unique ? min($unique) : 0;
 }
 
 /**
