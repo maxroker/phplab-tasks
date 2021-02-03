@@ -4,38 +4,30 @@ use PHPUnit\Framework\TestCase;
 
 class SayHelloArgumentWrapperTest extends TestCase
 {
-    
+    /**
+     * @param null|array|object|resource|resource (closed) $input
+     * 
+     * @dataProvider negativeDataProvider
+     */
 
-    public function testNegativeNull()
+
+    public function testNegative($input)
     {
         $this->expectException(InvalidArgumentException::class);
-        sayHelloArgumentWrapper(null);
+        sayHelloArgumentWrapper($input);
     }
 
-    public function testNegativeArray()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        sayHelloArgumentWrapper([]);
-    }
-    
-    public function testNegativeObject()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        sayHelloArgumentWrapper((object) array('1' => 'foo'));
-    }
-
-    public function testNegativeResource()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        sayHelloArgumentWrapper(fopen('http://www.google.com', 'r'));
-    }
-
-    public function testNegativeResourceClosed()
+    public function negativeDataProvider()
     {
         $f = fopen('http://www.google.com','r');
-        fclose($f); 
-        $this->expectException(InvalidArgumentException::class);
-        sayHelloArgumentWrapper($f);
-    }
-    
+        fclose($f);
+
+        return [
+            [null],
+            [[]],
+            [(object) array('1' => 'foo')],
+            [fopen('http://www.google.com', 'r')],
+            [$f],
+        ];
+    }  
 }

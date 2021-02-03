@@ -4,54 +4,31 @@ use PHPUnit\Framework\TestCase;
 
 class CountArgumentsWrapperTest extends TestCase
 {
-    public function testNegativeInteger()
+    /**
+     * @dataProvider negativeDataProvider
+     */
+
+    public function testNegative(...$input)
     {
         $this->expectException(InvalidArgumentException::class);
-        countArgumentsWrapper("1", 2, 3, "4");
+        countArgumentsWrapper(...$input);
     }
 
-    public function testNegativeFloat()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        countArgumentsWrapper("1,5", 2.6, "some");
-    }
-
-    public function testNegativeBoolean()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        countArgumentsWrapper("road", false);
-    }
-
-    public function testNegativeNull()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        countArgumentsWrapper("dog", NULL);
-    }
-
-    public function testNegativeArray()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        countArgumentsWrapper([], "guitar");
-    }
-    
-    public function testNegativeObject()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        countArgumentsWrapper((object) array('1' => 'foo'));
-    }
-
-    public function testNegativeResource()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        countArgumentsWrapper(fopen('http://www.google.com', 'r'));
-    }
-
-    public function testNegativeResourceClosed()
+    public function negativeDataProvider()
     {
         $f = fopen('http://www.google.com','r');
-        fclose($f); 
-        $this->expectException(InvalidArgumentException::class);
-        countArgumentsWrapper($f);
-    }
-    
+        fclose($f);
+
+        return [
+            [],
+            ["1", 2, 3, "4"],
+            ["1,5", 2.6, "some"],
+            ["road", false],
+            ["dog", NULL],
+            [[], "guitar"],
+            [(object) array('1' => 'foo')],
+            [fopen('http://www.google.com', 'r')],
+            [$f],
+        ];
+    }     
 }

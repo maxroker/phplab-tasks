@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 class SayHelloArgumentTest extends TestCase
 {
     /**
+     * @param int|string|bool $input
+     * @param string $expected
+     * 
      * @dataProvider positiveDataProvider
      */
     public function testPositive($input, $expected)
