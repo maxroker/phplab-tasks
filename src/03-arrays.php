@@ -13,7 +13,7 @@ function repeatArrayValues(array $input)
     $new_arr = [];
     for ($i = 0; $i < count($input); $i++) {
         for ($j = 0; $j < $input[$i]; $j++) {
-            $new_arr[count($new_arr)] = $input[$i];
+            $new_arr[] = $input[$i];
         }
     }
     return $new_arr;
