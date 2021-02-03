@@ -9,13 +9,8 @@
  */
 function snakeCaseToCamelCase(string $input)
 {
-    $arr = explode("_", $input);
-    foreach ($arr as &$value) {
-        $value = ucfirst($value);
-    }
-    $str_cap = implode("", $arr);
-
-    return lcfirst($str_cap);
+    $needle = array_map(function ($letter) {return "_$letter";}, range('a', 'z'));
+    return str_replace($needle, range('A', 'Z'), $input);
 }
 
 /**
