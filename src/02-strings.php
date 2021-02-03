@@ -9,8 +9,7 @@
  */
 function snakeCaseToCamelCase(string $input)
 {
-    $needle = array_map(function ($letter) {return "_$letter";}, range('a', 'z'));
-    return str_replace($needle, range('A', 'Z'), $input);
+    return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $input))));
 }
 
 /**
