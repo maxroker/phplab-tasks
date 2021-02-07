@@ -11,6 +11,10 @@
  */
 function getUniqueFirstLetters(array $airports)
 {
+    if (!is_array($airports)) {
+        throw new TypeError;
+    }
+
     $letters = array_map(function($airport) { return $airport['name'][0]; }, $airports );
     $letters = array_unique($letters);
     sort($letters);
@@ -18,23 +22,21 @@ function getUniqueFirstLetters(array $airports)
     return $letters;
 }
 
+
+/**
+ * @param  string  $param
+ * @param  string  $val
+ * @param  int  $page
+ * @return string[]
+ */
 function createUrl($param, $val, $page=0) 
 {
-    $url = '/?';
     $arr = $_GET;
+    $arr[$param] = $val;
 
-    if ($page === 1) {
+    if ($page) {
         $arr['page'] = 1;
     }
 
-    foreach ($arr as $key => $v) {
-        if ($key !== $param) {
-            $url = ($url === '/?') ? $url : "${url}&";
-            $url = "${url}${key}=${v}";
-        }
-    }
-
-    $url = ($url === '/?') ? $url : "${url}&";
-    $url = "${url}${param}=${val}";
-    return $url;
+    return '/?' . http_build_query($arr);
 }

@@ -2,6 +2,7 @@
 require_once './functions.php';
 
 $airports = require './airports.php';
+$limitPerPage = 15;  // Number of airports that can be shown on a page 
 
 
 // Filtering
@@ -10,12 +11,16 @@ $airports = require './airports.php';
  * and apply filtering by First Airport Name Letter and/or Airport State
  * (see Filtering tasks 1 and 2 below)
  */
-if (array_key_exists('filter_by_first_letter', $_GET )) {
-    $airports = array_filter($airports, function($airport){ return $airport['name'][0] === $_GET['filter_by_first_letter']; });
+if (isset($_GET['filter_by_first_letter'])) {
+    $airports = array_filter($airports, function($airport){ 
+        return $airport['name'][0] === $_GET['filter_by_first_letter']; 
+    });
 } 
 
-if (array_key_exists('filter_by_state', $_GET )) {
-    $airports = array_filter($airports, function($airport){ return $airport['state'] === $_GET['filter_by_state']; });
+if (isset($_GET['filter_by_state'])) {
+    $airports = array_filter($airports, function($airport){ 
+        return $airport['state'] === $_GET['filter_by_state']; 
+    });
 }
 
 
@@ -25,8 +30,10 @@ if (array_key_exists('filter_by_state', $_GET )) {
  * and apply sorting
  * (see Sorting task below)
  */
-if (array_key_exists('sort', $_GET )) {
-    usort($airports, function($a, $b) { return strcmp($a[$_GET['sort']], $b[$_GET['sort']]); });
+if (isset($_GET['sort'])) {
+    usort($airports, function($a, $b) { 
+        return strcmp($a[$_GET['sort']], $b[$_GET['sort']]); 
+    });
 } 
 
 // Pagination
@@ -36,12 +43,14 @@ if (array_key_exists('sort', $_GET )) {
  * (see Pagination task below)
  */
 
-$airportsLength = count($airports); // Location of this line is IMPORTANT
-$limitPerPage = 5;                  // Location of this line is IMPORTANT
+$airportsLength = count($airports); // Number of airports available after all filters applied
 
-if (array_key_exists('page', $_GET )) {
+if (isset($_GET['page'])) {
     $airports = array_slice($airports, $_GET['page'] * $limitPerPage - $limitPerPage , $limitPerPage);
-} 
+} else {
+    $airports = array_slice($airports, 0 , $limitPerPage);
+}
+  
 
 ?>
 <!doctype html>
@@ -111,7 +120,9 @@ if (array_key_exists('page', $_GET )) {
              - when you apply filter_by_state, than filter_by_first_letter (see Filtering task #1) is not reset
                i.e. if you have filter_by_first_letter set you can additionally use filter_by_state
         -->
+
         <?php foreach ($airports as $airport): ?>
+
         <tr>
             <td><?= $airport['name'] ?></td>
             <td><?= $airport['code'] ?></td>
@@ -135,12 +146,11 @@ if (array_key_exists('page', $_GET )) {
     -->
     <nav aria-label="Navigation">
         <ul class="pagination justify-content-center">
-        <?php for ($i = 1; $i <= ceil($airportsLength / $limitPerPage); $i++) { ?>         
-            <li class="page-item <?= $i == $_GET['page'] ? 'active' : ''; ?>" 
-            <?= ($_GET['page'] - 10 > $i) || ($_GET['page'] + 10 < $i) ? 'hidden' : ''; ?>>
+        <?php for ($i = 1; $i <= ceil($airportsLength / $limitPerPage); $i++): ?>         
+            <li class="page-item <?= $i == $_GET['page'] || (!isset($_GET['page']) && $i == 1) ? 'active' : ''; ?>" >
                 <a class="page-link" href="<?= createUrl('page', $i); ?>"><?= $i; ?></a>
             </li>
-        <?php } ?>
+        <?php endfor; ?>
         </ul>
     </nav>
 
