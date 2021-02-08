@@ -1,11 +1,20 @@
 <?php
+
+require_once '../../vendor/autoload.php';
+
 use src\oop\Calculator;
 use src\oop\Commands\SubCommand;
 use src\oop\Commands\SumCommand;
+use src\oop\Commands\DivisionCommand;
+use src\oop\Commands\MultiplicationCommand;
+use src\oop\Commands\ExponentiationCommand;
 
 $calc = new Calculator();
 $calc->addCommand('+', new SumCommand());
 $calc->addCommand('-', new SubCommand());
+$calc->addCommand('*', new MultiplicationCommand());
+$calc->addCommand('/', new DivisionCommand());
+$calc->addCommand('^', new ExponentiationCommand());
 
 // You can use any operation for computing
 // will output 2
