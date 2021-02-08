@@ -15,28 +15,11 @@ function getUniqueFirstLetters(array $airports)
         throw new TypeError;
     }
 
-    $letters = array_map(function($airport) { return $airport['name'][0]; }, $airports );
+    $letters = array_map(function($airport) { 
+        return $airport['name'][0]; 
+    }, $airports );
     $letters = array_unique($letters);
     sort($letters);
 
     return $letters;
-}
-
-
-/**
- * @param  string  $param
- * @param  string  $val
- * @param  int  $page
- * @return string[]
- */
-function createUrl($param, $val, $page=0) 
-{
-    $arr = $_GET;
-    $arr[$param] = $val;
-
-    if ($page) {
-        $arr['page'] = 1;
-    }
-
-    return '/?' . http_build_query($arr);
 }

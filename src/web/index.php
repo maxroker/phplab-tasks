@@ -82,7 +82,9 @@ if (isset($_GET['page'])) {
         Filter by first letter:
 
         <?php foreach (getUniqueFirstLetters(require './airports.php') as $letter): ?>
-            <a href="<?= createUrl('filter_by_first_letter', $letter, 1); ?>"><?= $letter ?></a>
+            <a href="<?= '?' . http_build_query(array_merge($_GET, ['filter_by_first_letter' => $letter], ['page' => 1])); ?>">
+                <?= $letter ?>
+            </a>
         <?php endforeach; ?>
 
         <a href="/" class="float-right">Reset all filters</a>
@@ -101,10 +103,10 @@ if (isset($_GET['page'])) {
     <table class="table">
         <thead>
         <tr>
-            <th scope="col"><a href="<?= createUrl('sort', 'name'); ?>">Name</a></th>
-            <th scope="col"><a href="<?= createUrl('sort', 'code'); ?>">Code</a></th>
-            <th scope="col"><a href="<?= createUrl('sort', 'state'); ?>">State</a></th>
-            <th scope="col"><a href="<?= createUrl('sort', 'city'); ?>">City</a></th>
+            <th scope="col"><a href="<?= '?' . http_build_query(array_merge($_GET, ['sort' => 'name'])); ?>">Name</a></th>
+            <th scope="col"><a href="<?= '?' . http_build_query(array_merge($_GET, ['sort' => 'code'])); ?>">Code</a></th>
+            <th scope="col"><a href="<?= '?' . http_build_query(array_merge($_GET, ['sort' => 'state'])); ?>">State</a></th>
+            <th scope="col"><a href="<?= '?' . http_build_query(array_merge($_GET, ['sort' => 'city'])); ?>">City</a></th>
             <th scope="col">Address</th>
             <th scope="col">Timezone</th>
         </tr>
@@ -126,7 +128,11 @@ if (isset($_GET['page'])) {
         <tr>
             <td><?= $airport['name'] ?></td>
             <td><?= $airport['code'] ?></td>
-            <td><a href="<?= createUrl('filter_by_state', $airport['state'], 1); ?>"><?= $airport['state'] ?></a></td>
+            <td>
+                <a href="<?= '?' . http_build_query(array_merge($_GET, ['filter_by_state' => $airport['state']], ['page' => 1])); ?>">
+                    <?= $airport['state'] ?>
+                </a>
+            </td>
             <td><?= $airport['city'] ?></td>
             <td><?= $airport['address'] ?></td>
             <td><?= $airport['timezone'] ?></td>
@@ -148,7 +154,9 @@ if (isset($_GET['page'])) {
         <ul class="pagination justify-content-center">
         <?php for ($i = 1; $i <= ceil($airportsLength / $limitPerPage); $i++): ?>         
             <li class="page-item <?= $i == $_GET['page'] || (!isset($_GET['page']) && $i == 1) ? 'active' : ''; ?>" >
-                <a class="page-link" href="<?= createUrl('page', $i); ?>"><?= $i; ?></a>
+                <a class="page-link" href="<?= '?' . http_build_query(array_merge($_GET, ['page' => $i])); ?>">
+                    <?= $i; ?>
+                </a>
             </li>
         <?php endfor; ?>
         </ul>
