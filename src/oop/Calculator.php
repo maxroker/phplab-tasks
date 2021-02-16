@@ -127,8 +127,6 @@ class Calculator
     public function undo()
     {
         // TODO implement undo logic here
-        // array_pop($this->intents);
-
         $operation = get_class(end($this->intents)[0]);
         $arg = end($this->intents)[1];
 
@@ -157,11 +155,7 @@ class Calculator
     {
         // TODO implement replay logic here
         if ($this->intents) {
-            // if (end($this->intents) == ['undo']) {
-            //     $this->undo();
-            // } else {
-                $this->intents[] = end($this->intents);
-            // }
+            $this->intents[] = end($this->intents);
         }
 
         return $this;
