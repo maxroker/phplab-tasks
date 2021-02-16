@@ -44,7 +44,8 @@ echo $calc->init(1)
 echo PHP_EOL;
 
 // TODO implement undo method
-// should output 1
+// should output 1 in initial task
+// outputs 11 with new logic for undo operation
 echo $calc->init(1)
     ->compute('+', 5)
     ->compute('+', 5)
@@ -52,4 +53,24 @@ echo $calc->init(1)
     ->undo()
     ->getResult();
 
+echo PHP_EOL;
+
+// should output 1
+echo $calc->init(1)
+    ->compute('+', 5)
+    ->compute('+', 5)
+    ->compute('+', 5)
+    ->undo()
+    ->replay()
+    ->replay()
+    ->getResult();
+    
+echo PHP_EOL;
+
+// should output 2
+echo $calc->init(2)
+    ->compute('^', 3)
+    ->undo()
+    ->getResult();
+    
 echo PHP_EOL;

@@ -127,7 +127,23 @@ class Calculator
     public function undo()
     {
         // TODO implement undo logic here
-        array_pop($this->intents);
+        // array_pop($this->intents);
+
+        $operation = get_class(end($this->intents)[0]);
+        $arg = end($this->intents)[1];
+
+        if (strpos($operation, 'SumCommand')) {
+            $this->intents[] = [$this->getCommand('-'), $arg];
+        } elseif (strpos($operation, 'SubCommand')) {
+            $this->intents[] = [$this->getCommand('+'), $arg];
+        } elseif (strpos($operation, 'Multiplication')) {
+            $this->intents[] = [$this->getCommand('/'), $arg];
+        } elseif (strpos($operation, 'Division')) {
+            $this->intents[] = [$this->getCommand('*'), $arg];
+        } elseif (strpos($operation, 'Exponentiation')) {
+            $arg[0] = 1 / $arg[0];
+            $this->intents[] = [$this->getCommand('^'), $arg];
+        };
 
         return $this;
     }
@@ -141,7 +157,11 @@ class Calculator
     {
         // TODO implement replay logic here
         if ($this->intents) {
-            $this->intents[] = end($this->intents);
+            // if (end($this->intents) == ['undo']) {
+            //     $this->undo();
+            // } else {
+                $this->intents[] = end($this->intents);
+            // }
         }
 
         return $this;
