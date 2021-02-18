@@ -16,6 +16,7 @@ $calc->addCommand('*', new MultiplicationCommand());
 $calc->addCommand('/', new DivisionCommand());
 $calc->addCommand('^', new ExponentiationCommand());
 
+
 // You can use any operation for computing
 // will output 2
 echo $calc->init(1)
@@ -74,3 +75,4 @@ echo $calc->init(2)
     ->getResult();
     
 echo PHP_EOL;
+
